@@ -3,21 +3,60 @@ import Status from './components/Status';
 import { useState, useEffect } from 'react';
 
 function App() {
-  const [tasks, setTasks] = useState([
-    { text: "Learn about React" },
-    { text: "Meet friend for lunch" },
-    { text: "Build really cool todo app" }
-  ]);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {}, []);
 
-  function addEmptyTask(status) {}
+  function addEmptyTask(status) {
+    const lastTask = tasks[tasks.length - 1];
+    let newTaskId = 1;
+    if (lastTask !== undefined) {
+      newTaskId = lastTask.id + 1;
+    }
+    setTasks((tasks) => [
+      ...tasks,
+      {
+        id: newTaskId,
+        title: '',
+        description: '',
+        urgency: '',
+        status: status,
+      },
+    ]);
+  }
 
-  function addTask(taskToAdd) {}
+  function addTask(taskToAdd) {
+    let filteredTasks = tasks.filter((task) => {
+      return task.id !== taskToAdd.id;
+    });
+    let newTaskList = [...filteredTasks, taskToAdd];
+    setTasks(newTaskList);
+  }
 
-  function deleteTask(taskId) {}
+  function deleteTask(taskId) {
+    let filteredTasks = tasks.filter((task) => {
+      return task.id !== taskId;
+    });
 
-  function moveTask(id, newStatus) {}
+    setTasks(filteredTasks);
+  }
+
+  function moveTask(id, newStatus) {
+
+    let task = tasks.filter((task) => {
+      return task.id === id;
+    })[0];
+
+    let filteredTasks = tasks.filter((task) => {
+      return task.id !== id;
+    });
+
+    task.status = newStatus;
+
+    let newTaskList = [...filteredTasks, task];
+
+    setTasks(newTaskList);
+  }
 
   function saveTasks(tasks) {}
 
@@ -29,7 +68,7 @@ function App() {
       <main>
         <section>
           <Status
-            task={tasks}
+            tasks={tasks}
             addEmptyTask={addEmptyTask}
             addTask={addTask}
             deleteTask={deleteTask}
@@ -37,7 +76,7 @@ function App() {
             status="new task"
           />
           <Status
-            task={tasks}
+            tasks={tasks}
             addEmptyTask={addEmptyTask}
             addTask={addTask}
             deleteTask={deleteTask}
@@ -45,7 +84,7 @@ function App() {
             status="in progress"
           />
           <Status
-            task={tasks}
+            tasks={tasks}
             addEmptyTask={addEmptyTask}
             addTask={addTask}
             deleteTask={deleteTask}
