@@ -1,11 +1,11 @@
 import Task from './Task';
 
-function Status(props) {
+export default function StatusLine(props) {
   const { status, tasks, addTask, deleteTask, addEmptyTask, moveTask } = props;
 
   let taskList, tasksForStatus;
 
-  function handleEmpty() {
+  function handleAddEmpty() {
     addEmptyTask(status);
   }
 
@@ -14,7 +14,6 @@ function Status(props) {
       return task.status === status;
     });
   }
-  //generate the tasks
 
   if (tasksForStatus) {
     taskList = tasksForStatus.map((task) => {
@@ -31,13 +30,12 @@ function Status(props) {
   }
 
   return (
-    <div className="line">
-      <h3>{status}</h3>
+    <div className="statusLine">
+      <img src={props.image} className={props.cssClass}/>
       {taskList}
-      
-      <button onClick={handleEmpty}>+</button>
+      <button onClick={handleAddEmpty} className="button addTask">
+        +
+      </button>
     </div>
   );
 }
-
-export default Status;

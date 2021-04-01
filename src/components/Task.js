@@ -1,12 +1,12 @@
-
-import { useState } from "react";
+import { useState } from 'react';
+import ArrowLeft from '../images/arrow-left.svg';
 
 export default function Task(props) {
   const { addTask, deleteTask, moveTask, task } = props;
 
   const [urgencyLevel, setUrgencyLevel] = useState(task.urgency);
   const [collapsed, setCollapsed] = useState(task.isCollapsed);
-  const [formAction, setFormAction] = useState("");
+  const [formAction, setFormAction] = useState('');
 
   function setUrgency(event) {
     setUrgencyLevel(event.target.attributes.urgency.value);
@@ -15,7 +15,7 @@ export default function Task(props) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (formAction === "save") {
+    if (formAction === 'save') {
       if (collapsed) {
         setCollapsed(false);
       } else {
@@ -25,53 +25,53 @@ export default function Task(props) {
           description: event.target.elements.description.value,
           urgency: urgencyLevel,
           status: task.status,
-          isCollapsed: true
+          isCollapsed: true,
         };
 
-        addTask(newTask);
         setCollapsed(true);
       }
     }
 
-    if (formAction === "delete") {
+    if (formAction === 'delete') {
       deleteTask(task.id);
     }
   }
 
   function handleMoveLeft() {
-    let newStatus = "";
+    let newStatus = '';
 
-    if (task.status === "In Progress") {
-      newStatus = "Backlog";
-    } else if (task.status === "Done") {
-      newStatus = "In Progress";
+    if (task.status === 'In Progress') {
+      newStatus = 'Backlog';
+    } else if (task.status === 'Done') {
+      newStatus = 'In Progress';
     }
 
-    if (newStatus !== "") {
+    if (newStatus !== '') {
       moveTask(task.id, newStatus);
     }
   }
 
   function handleMoveRight() {
-    let newStatus = "";
+    let newStatus = '';
 
-    if (task.status === "Backlog") {
-      newStatus = "In Progress";
-    } else if (task.status === "In Progress") {
-      newStatus = "Done";
+    if (task.status === 'Backlog') {
+      newStatus = 'In Progress';
+    } else if (task.status === 'In Progress') {
+      newStatus = 'Done';
     }
 
-    if (newStatus !== "") {
+    if (newStatus !== '') {
       moveTask(task.id, newStatus);
     }
   }
 
   return (
-    <div className={`task ${collapsed ? "collapsedTask" : ""}`}>
-      <button onClick={handleMoveLeft} className="button moveTask">
-        &#171;
-      </button>
-      <form onSubmit={handleSubmit} className={collapsed ? "collapsed" : ""}>
+    <div className={`task ${collapsed ? 'collapsedTask' : ''}`}>
+
+      <img onClick={handleMoveLeft} src={ArrowLeft} />
+
+
+      <form onSubmit={handleSubmit} className={collapsed ? 'collapsed' : ''}>
         <input
           type="text"
           className="title input"
@@ -88,7 +88,7 @@ export default function Task(props) {
           defaultValue={task.description}
         />
         <div className="urgencyLabels">
-          <label className={`low ${urgencyLevel === "low" ? "selected" : ""}`}>
+          <label className={`low ${urgencyLevel === 'low' ? 'selected' : ''}`}>
             <input
               urgency="low"
               onChange={setUrgency}
@@ -98,7 +98,7 @@ export default function Task(props) {
             low
           </label>
           <label
-            className={`medium ${urgencyLevel === "medium" ? "selected" : ""}`}
+            className={`medium ${urgencyLevel === 'medium' ? 'selected' : ''}`}
           >
             <input
               urgency="medium"
@@ -109,7 +109,7 @@ export default function Task(props) {
             medium
           </label>
           <label
-            className={`high ${urgencyLevel === "high" ? "selected" : ""}`}
+            className={`high ${urgencyLevel === 'high' ? 'selected' : ''}`}
           >
             <input
               urgency="high"
@@ -122,16 +122,16 @@ export default function Task(props) {
         </div>
         <button
           onClick={() => {
-            setFormAction("save");
+            setFormAction('save');
           }}
           className="button"
         >
-          {collapsed ? "Edit" : "Save"}
+          {collapsed ? 'Edit' : 'Save'}
         </button>
         {collapsed && (
           <button
             onClick={() => {
-              setFormAction("delete");
+              setFormAction('delete');
             }}
             className="button delete"
           >
@@ -139,9 +139,9 @@ export default function Task(props) {
           </button>
         )}
       </form>
-      <button onClick={handleMoveRight} className="button moveTask">
-        &#187;
-      </button>
+ 
+        <img onClick={handleMoveRight} src={ArrowLeft} />
+    
     </div>
   );
 }

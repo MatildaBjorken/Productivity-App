@@ -1,18 +1,23 @@
 import './App.css';
 import Status from './components/Status';
 import { useState, useEffect } from 'react';
+import GetItDone from './images/getitdone.svg';
+import GetIt from './images/getit.svg';
+import InProgress from './images/inprogress.svg';
+import Done from './images/done.svg';
 
 function App() {
   const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {}, []);
-
   function addEmptyTask(status) {
     const lastTask = tasks[tasks.length - 1];
+
     let newTaskId = 1;
+
     if (lastTask !== undefined) {
       newTaskId = lastTask.id + 1;
     }
+
     setTasks((tasks) => [
       ...tasks,
       {
@@ -29,7 +34,9 @@ function App() {
     let filteredTasks = tasks.filter((task) => {
       return task.id !== taskToAdd.id;
     });
+
     let newTaskList = [...filteredTasks, taskToAdd];
+
     setTasks(newTaskList);
   }
 
@@ -42,7 +49,6 @@ function App() {
   }
 
   function moveTask(id, newStatus) {
-
     let task = tasks.filter((task) => {
       return task.id === id;
     })[0];
@@ -58,38 +64,41 @@ function App() {
     setTasks(newTaskList);
   }
 
-  function saveTasks(tasks) {}
-
-  function loadTasks() {}
-
   return (
-    <div>
-      <h1>Handle Your Tasks</h1>
+    <div className="App">
+      <img className="getItDone-svg" src={GetItDone} />
       <main>
         <section>
           <Status
+            image={GetIt}
+            cssClass="GetIt"
             tasks={tasks}
             addEmptyTask={addEmptyTask}
             addTask={addTask}
             deleteTask={deleteTask}
             moveTask={moveTask}
-            status="new task"
+            status="Backlog"
           />
+
           <Status
+            image={InProgress}
+            cssClass="InProgress"
             tasks={tasks}
             addEmptyTask={addEmptyTask}
             addTask={addTask}
             deleteTask={deleteTask}
             moveTask={moveTask}
-            status="in progress"
+            status="In Progress"
           />
+
           <Status
+            cssClass="GetIt"
+            image={Done}
             tasks={tasks}
             addEmptyTask={addEmptyTask}
-            addTask={addTask}
             deleteTask={deleteTask}
             moveTask={moveTask}
-            status="done"
+            status="Done"
           />
         </section>
       </main>
